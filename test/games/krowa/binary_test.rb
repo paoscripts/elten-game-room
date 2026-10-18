@@ -54,7 +54,7 @@ windows = 0
   end
 end
 repository = GameRoomKrowa::WordRepository.default
-raise "Noun entries lost or duplicated" unless repository.words.length == 98_247 && repository.words.uniq.length == 84_942
+raise "Noun entries lost or duplicated" unless repository.words.length == 98_315 && repository.words.uniq.length == 85_010
 raise "Polish nouns corrupted" unless repository.include?("żółć")
 %w[łam zacios zaciosy prosię silnia silnie afro szmat ksero
   szamanka szamanki sokownik sokowniki geomanta geomantka geomanci geomantki
