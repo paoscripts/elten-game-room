@@ -54,7 +54,7 @@ windows = 0
   end
 end
 repository = GameRoomKrowa::WordRepository.default
-raise "Noun entries lost or duplicated" unless repository.words.length == 98_247 && repository.words.uniq.length == 84_942
+raise "Noun entries lost or duplicated" unless repository.words.length == 85_059 && repository.words.uniq.length == 85_059
 raise "Polish nouns corrupted" unless repository.include?("żółć")
 %w[łam zacios zaciosy prosię silnia silnie afro szmat ksero
   szamanka szamanki sokownik sokowniki geomanta geomantka geomanci geomantki
@@ -68,4 +68,4 @@ raise "Polish nouns corrupted" unless repository.include?("żółć")
 end
 provider = GameRoomKrowa::SjpDefinitionProvider.new(fetcher: ->(_uri) { '<p><b>znaczenie:</b></p></div><p>Żółć &amp; słowo.<br>Drugi wiersz.</p>'.b })
 raise "Binary SJP decoding" unless provider.definition_for("żółć") == "Żółć & słowo.\nDrugi wiersz."
-puts "PASS Krowa binary: #{windows} views PL/EN/fallback, Polish nouns and SJP, original duplicate-preserving database"
+puts "PASS Krowa binary: #{windows} views PL/EN/fallback, Polish nouns and SJP, unique noun database"
