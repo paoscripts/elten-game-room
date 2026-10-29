@@ -80,4 +80,18 @@ raise "Binary SJP Unicode suffix rule" unless GameRoomKrowa::SjpNounForms.nomina
   'kości', 'kość', {'M' => %w[kości kością], 'N' => %w[kościach]}
 )
 raise "Binary SJP indeclinable" unless provider.parse(KrowaSjpHtml.entry('menu', {}, 'Spis potraw.').b, word: 'menu') == "menu\nSpis potraw."
+details = GameRoomGames::KrowaAttemptListView.new(game, selection: -> { 'żółć' }) do |word|
+  {word: word, words: ['żółć']}
+end
+details.field.trigger(:before_focus)
+raise 'Binary attempt list encoding' unless details.field.options == ['żółć. 4'] &&
+  (details.field.header + ' — lista').valid_encoding?
+$rules_english = false
+GameRoomTestLocalization.use_language('pl')
+polish_details = GameRoomGames::KrowaAttemptListView.new(game, selection: -> { 'żółć' }) do |word|
+  {word: word, words: ['żółć']}
+end
+polish_details.field.trigger(:before_focus)
+raise 'Polish attempt list labels' unless polish_details.field.header == 'Lista prób' &&
+  polish_details.field.options == ['żółć. 4']
 puts "PASS Krowa binary: #{windows} views PL/EN/fallback, Polish nouns and SJP, merged unique noun database"

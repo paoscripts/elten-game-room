@@ -396,6 +396,19 @@ W głównym menu wybierz „Rankingi”, a następnie grę.
 - W Wieży słów liczy się liczba ukończonych rund: im więcej, tym wyższe miejsce.
   Enter na wyniku pokazuje słowa i próby z poszczególnych rund.
 
+Po odgadnięciu słowa w grze losowej lub dziennej Krowie możesz wybrać:
+„Opublikuj”, „Opublikuj bez listy prób” albo „Nie publikuj”. Taki sam wybór
+jest dostępny przy publikowaniu wyniku Wieży słów. Lista obejmuje tylko
+sprawdzone próby, w kolejności ich wykonania.
+
+W rankingu słowa lub dnia zaznacz wynik gracza i naciśnij Tab, aby przejść
+do jego listy prób. Każda pozycja zawiera słowo i liczbę zgodnych liter.
+W szczegółach Wieży słów wybierz rundę, a w swojej galerii — słowo, po czym
+również naciśnij Tab. Galeria zapisuje własne próby niezależnie od publikacji.
+Listy prób z dziennej Krowy są dostępne w rankingu dopiero następnego dnia,
+według daty serwera w Polsce. Starsze wyniki oraz wyniki opublikowane bez
+listy pokazują informację o braku zapisanych prób.
+
 ## Statystyki
 
 W głównym menu wybierz „Statystyki”, a następnie „Ogólne”, „Axel Pong” lub „Audio Ball”.

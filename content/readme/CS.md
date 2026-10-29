@@ -249,6 +249,19 @@ V hlavním menu vyberte Žebříčky a potom hru.
 - Denní Krowa má samostatný žebříček pro každý den, také podle počtu pokusů. Dnešní slovo zůstává skryté; řešení minulých dní lze zobrazit po jejich skončení.
 - Ve Slovní věži rozhoduje počet dokončených kol: čím více, tím lepší místo. Enter na výsledku zobrazí slova a pokusy v jednotlivých kolech.
 
+Po uhodnutí slova v náhodné hře nebo denní Krowě můžete vybrat „Zveřejnit“,
+„Zveřejnit bez seznamu pokusů“ nebo „Nezveřejňovat“. Stejná volba je
+dostupná při zveřejňování výsledku Slovní věže. Seznam obsahuje pouze
+vyhodnocené pokusy v pořadí, ve kterém byly zadány.
+
+V žebříčku slova nebo dne vyberte výsledek hráče a klávesou Tab přejděte
+na jeho seznam pokusů. Každá položka uvádí slovo a počet shodných písmen.
+V podrobnostech Slovní věže vyberte kolo, ve vlastní galerii slovo a potom
+také stiskněte Tab. Galerie ukládá vaše pokusy nezávisle na zveřejnění.
+Seznamy pokusů denní Krowy se v žebříčku zpřístupní až následující den
+podle data serveru v Polsku. U starších výsledků a výsledků zveřejněných
+bez seznamu se zobrazí informace, že pokusy nejsou zaznamenány.
+
 ## Statistiky
 
 V hlavním menu vyberte Statistiky a potom Obecné, Axel Pong nebo Audio Ball.
