@@ -55,17 +55,23 @@ windows = 0
   end
 end
 repository = GameRoomKrowa::WordRepository.default
-raise "Noun entries lost or duplicated" unless repository.words.length == 85_127 && repository.words.uniq.length == 85_127
+raise "Noun entries lost or duplicated" unless repository.words.length == 85_135 && repository.words.uniq.length == 85_135
 raise "Polish nouns corrupted" unless repository.include?("żółć")
 %w[łam zacios zaciosy prosię silnia silnie afro szmat ksero
   szamanka szamanki sokownik sokowniki geomanta geomantka geomanci geomantki
   mop mopy bus busy pub puby tarta tarty świrus świrusy świruska świruski
-  cytacik cytaciki owocek owocki token tokeny geomancje geomancja
+  token tokeny geomancje geomancja
   nekromanta nekromanci nekromantka nekromantki nekromancja nekromancje
   ranking rankingi odsłona odsłony billing billingi kasting kastingi
   halling hallingi hosting hostingi leasing leasingi lifting liftingi
   ścierak ścieraki roaming roamingi szpring szpringi pluszak pluszaki oscypek oscypki].each do |word|
   raise "Added noun missing from binary dictionary: #{word}" unless repository.include?(word)
+end
+%w[alias aliasy podolog podolodzy podolożka podolożki wibrys wibrysy kodek kodeki polik poliki kebab kebaby].each do |word|
+  raise "Requested noun missing from binary dictionary: #{word}" unless repository.include?(word)
+end
+%w[cytacik cytaciki owocek owocki].each do |word|
+  raise "Removed noun remains in binary dictionary: #{word}" if repository.include?(word)
 end
 provider = GameRoomKrowa::SjpDefinitionProvider.new(fetcher: ->(_uri) { '<p><b>znaczenie:</b></p></div><p>Żółć &amp; słowo.<br>Drugi wiersz.</p>'.b })
 raise "Binary SJP decoding" unless provider.definition_for("żółć") == "Żółć & słowo.\nDrugi wiersz."

@@ -20,15 +20,40 @@ module GameRoomGames
     MAX_WORD_RESULTS = 2_000
     MAX_TOWER_RESULTS = 500
 
-    def initialize(server_tables:, bank:, user:)
+    def initialize(server_tables:, bank:, user:, program: nil, schema_reader: nil)
       @server_tables = server_tables
       @bank = bank
       @user = user.to_s.strip
       raise ArgumentError, "Krowa server store requires a user" if @user.empty?
+      @schema_reader = schema_reader
+      if !@schema_reader && program&.respond_to?(:server_app_uuid)
+        uuid = program.server_app_uuid
+        @schema_reader = -> { EltenLink::Apps.schema(EltenLink::Client.new, uuid) }
+      end
     end
 
     def available?
       @server_tables.respond_to?(:available?) && @server_tables.available?
+    end
+
+    # Read once per services instance, on its existing Tasks worker. Old
+    # servers can still accept scores without optional history columns.
+    def attempt_histories_available?
+      return true unless @schema_reader
+      return @attempt_schema_ready if defined?(@attempt_schema_ready)
+      schema = @schema_reader.call
+      data = schema['data']
+      data = JSON.parse(data) if data.is_a?(String)
+      tables = schema['tables'] || (data.is_a?(Hash) && data['tables']) || {}
+      required = {
+        KrowaAttemptArchive::TABLE => %w[list_key part parts nonce payload],
+        WORD_TABLE => ['history_key'], DAILY_SCORES_TABLE => ['history_key'],
+        TOWER_ROUNDS_TABLE => ['history_key'], TOWER_TABLE => ['histories_shared']
+      }
+      @attempt_schema_ready = required.all? do |name, fields|
+        columns = tables.fetch(name, {}).fetch('columns', {})
+        fields.all? { |field| columns.key?(field) }
+      end
     end
 
     def synchronize_daily(date_ids)
@@ -106,6 +131,7 @@ module GameRoomGames
       date = normalized_date(date_id)
       count = attempts.to_i
       return :unavailable if date == nil || count <= 0 || !available? || !daily_completed?(date)
+      return :history_unavailable if words && !attempt_histories_available?
 
       own = daily_scores_table.select(
         where: {"day_key" => date_key(date), "__insertion_user" => @user},
@@ -230,6 +256,7 @@ module GameRoomGames
       normalized = normalized_ranked_word(word)
       count = attempts.to_i
       return :unavailable if normalized == nil || count <= 0 || !available?
+      return :history_unavailable if words && !attempt_histories_available?
 
       own = word_table.select(
         where: {"word" => normalized, "__insertion_user" => @user},
@@ -359,6 +386,8 @@ module GameRoomGames
     def publish_tower(run_code:, participants:, rounds:)
       code = normalized_run_code(run_code)
       return :unavailable if code == nil || !available?
+      sharing = Array(rounds).any? { |round| round[:words] || round['words'] }
+      return :history_unavailable if sharing && !attempt_histories_available?
       identity = {"run_code" => code, "__insertion_user" => @user}
       return :unchanged unless tower_table.select(where: identity, limit: 1).to_a.empty?
 
@@ -400,9 +429,9 @@ module GameRoomGames
       values = {
         "run_code" => code,
         "rounds" => completed,
-        "participants" => JSON.generate(names),
-        "histories_shared" => details.any? { |round| round['history_key'] } ? 1 : 0
+        "participants" => JSON.generate(names)
       }
+      values['histories_shared'] = sharing ? 1 : 0 if attempt_histories_available?
       begin
         inserted = tower_table.insert(values)
         return :published if inserted

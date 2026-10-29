@@ -55,7 +55,8 @@ module GameRoomGames
       @server_store = KrowaServerStore.new(
         server_tables: @server_tables,
         bank: KrowaWordBank.default,
-        user: Session.name
+        user: Session.name,
+        program: @program
       )
       @leaderboards = KrowaLeaderboardClient.new(@program, @game, store: @server_store)
       true
@@ -161,8 +162,8 @@ module GameRoomGames
           end
         end
         list.options = words.map do |word|
-          _("%{word}: %{attempts} attempts, %{length} letters") % {
-            word: word, attempts: entries[word]["attempts"], length: word.length
+          _("%{word}: %{attempts} attempts") % {
+            word: word, attempts: entries[word]["attempts"]
           }
         end
         list.index = words.index(selected) || 0
@@ -352,7 +353,7 @@ module GameRoomGames
       selected = nil
       choices = [:with_attempts, :without_attempts, nil]
       list = ListBox.new([_("Publish"), _("Publish without attempt list"), _("Do not publish")],
-        header: title, index: 2, quiet: true)
+        header: title, index: 0, flags: ListBox::Flags::LeftRight, quiet: true)
       accept, cancel = Button.new(_("Choose")), Button.new(_("Cancel"))
       form = GameRoomUI::Form.new([list, accept, cancel], program: @program, quiet: true)
       form.accept_button, form.cancel_button = accept, cancel

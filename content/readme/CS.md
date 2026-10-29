@@ -253,6 +253,9 @@ Po uhodnutí slova v náhodné hře nebo denní Krowě můžete vybrat „Zveře
 „Zveřejnit bez seznamu pokusů“ nebo „Nezveřejňovat“. Stejná volba je
 dostupná při zveřejňování výsledku Slovní věže. Seznam obsahuje pouze
 vyhodnocené pokusy v pořadí, ve kterém byly zadány.
+Ve výchozím stavu je vybráno „Zveřejnit“. Šipka vpravo postupně přechází
+na zbývající dvě možnosti, šipka vlevo se vrací. Enter volbu potvrdí;
+Escape zavře okno bez zveřejnění.
 
 V žebříčku slova nebo dne vyberte výsledek hráče a klávesou Tab přejděte
 na jeho seznam pokusů. Každá položka uvádí slovo a počet shodných písmen.
@@ -261,6 +264,8 @@ také stiskněte Tab. Galerie ukládá vaše pokusy nezávisle na zveřejnění.
 Seznamy pokusů denní Krowy se v žebříčku zpřístupní až následující den
 podle data serveru v Polsku. U starších výsledků a výsledků zveřejněných
 bez seznamu se zobrazí informace, že pokusy nejsou zaznamenány.
+V seznamu galerie se zobrazuje slovo a počet pokusů, bez počtu písmen.
+Pokud server zatím seznamy pokusů nepodporuje, můžete zveřejnit samotný výsledek.
 
 ## Statistiky
 

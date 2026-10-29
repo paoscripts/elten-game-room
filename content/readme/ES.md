@@ -253,6 +253,9 @@ Tras adivinar una palabra en Palabra aleatoria o Krowa diaria, puedes elegir
 «Publicar», «Publicar sin la lista de intentos» o «No publicar». Las mismas
 opciones están disponibles al publicar un resultado de la Torre de palabras.
 La lista contiene solo los intentos comprobados, en el orden en que se hicieron.
+«Publicar» está seleccionado por defecto. La flecha derecha pasa por las otras
+dos opciones y la flecha izquierda retrocede. Intro confirma la elección;
+Escape cierra la ventana sin publicar.
 
 En la clasificación de una palabra o de un día, selecciona el resultado de
 un jugador y pulsa Tab para leer su lista de intentos. Cada elemento indica
@@ -262,6 +265,8 @@ pulsa Tab. La galería guarda tus propios intentos aunque no los publiques.
 Las listas de Krowa diaria aparecen en la clasificación al día siguiente,
 según la fecha del servidor en Polonia. Los resultados antiguos y los
 publicados sin lista indican que no hay intentos registrados.
+Las entradas de la galería muestran la palabra y el número de intentos, sin indicar el número de letras.
+Si el servidor aún no admite listas de intentos, puedes publicar solo el resultado.
 
 ## Estadísticas
 

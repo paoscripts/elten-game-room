@@ -77,6 +77,9 @@ redact history references unless the published summary explicitly shares them.
 This is an additive schema update by
 the application's owner; no existing rows or tables need to be deleted.
 Old rows and results published without histories have an empty/missing key.
+Publication checks the remote declaration once per services instance. Until
+the additive schema is available, sharing histories returns explicit feedback
+and leaves ordinary score publication usable, without querying a missing table.
 The canonical earliest row for an exact personal-best score selects its
 history. A later playthrough with the same count cannot replace that list.
 

@@ -17,7 +17,8 @@ module GameRoomGames
       @store = store || KrowaServerStore.new(
         server_tables: server_tables,
         bank: KrowaWordBank.default,
-        user: Session.name
+        user: Session.name,
+        program: @program
       )
     end
 
@@ -87,6 +88,9 @@ module GameRoomGames
     def publish_word(word, attempts, words: nil)
       result = network(_("Publishing result")) { @store.publish_word(word, attempts, words: words) }
       case result
+      when :history_unavailable
+        alert(_("Attempt lists are not enabled on the server yet. You can publish the result without the list."))
+        false
       when :published
         alert(_("Result published."))
         show_word_ranking(word)
@@ -104,6 +108,9 @@ module GameRoomGames
     def publish_daily(date_id, attempts, words: nil)
       result = network(_("Publishing Daily Krowa result")) { @store.publish_daily(date_id, attempts, words: words) }
       case result
+      when :history_unavailable
+        alert(_("Attempt lists are not enabled on the server yet. You can publish the result without the list."))
+        false
       when :published
         alert(_("Daily Krowa result published."))
         show_daily_ranking(date_id)
@@ -123,6 +130,9 @@ module GameRoomGames
         @store.publish_tower(run_code: run_code, participants: participants, rounds: rounds)
       end
       case result
+      when :history_unavailable
+        alert(_("Attempt lists are not enabled on the server yet. You can publish the result without the list."))
+        false
       when :published
         alert(_("Word Tower result published."))
         show_tower_ranking

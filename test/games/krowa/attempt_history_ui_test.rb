@@ -36,7 +36,8 @@ end
       prompts += 1
       list = form.fields.first
       assert(list.options == ['Publish', 'Publish without attempt list', 'Do not publish'], 'publication choices')
-      assert(list.index == 2, 'publication must require an explicit opt-in')
+      assert(list.index == 0, 'publication must initially select Publish')
+      assert(list.instance_variable_get(:@flags) == ListBox::Flags::LeftRight, 'publication must use Left/Right navigation')
       if choice == :escape
         form.cancel_button.trigger(:press)
       else
@@ -136,7 +137,7 @@ profile.data['gallery'].merge!('kot' => {'attempts' => 2, 'at' => 1, 'words' => 
   'las' => {'attempts' => 1, 'at' => 2})
 Form.driver = lambda do |form|
   list, attempts = form.fields.first(2)
-  assert(list.options.first.start_with?('las:'), 'newest gallery order changed')
+  assert(list.options == ['las: 1 attempts', 'kot: 2 attempts'], 'gallery must show words and attempts only, newest first')
   attempts.trigger(:before_focus)
   assert(attempts.options.empty?, 'legacy gallery entry invented attempts')
   list.index = 1
